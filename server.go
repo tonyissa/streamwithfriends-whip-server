@@ -56,7 +56,7 @@ func startHandler(w http.ResponseWriter, r *http.Request) {
 	// Register Opus for audio
 	if err := m.RegisterCodec(webrtc.RTPCodecParameters{
 		RTPCodecCapability: webrtc.RTPCodecCapability{
-			MimeType: "audio/opus", ClockRate: 48000, Channels: 2,
+			MimeType: webrtc.MimeTypeOpus, ClockRate: 48000, Channels: 2,
 		},
 		PayloadType: 111,
 	}, webrtc.RTPCodecTypeAudio); err != nil {
@@ -67,7 +67,7 @@ func startHandler(w http.ResponseWriter, r *http.Request) {
 	// Register H264 for video
 	if err := m.RegisterCodec(webrtc.RTPCodecParameters{
 		RTPCodecCapability: webrtc.RTPCodecCapability{
-			MimeType: "video/H264", ClockRate: 90000,
+			MimeType: webrtc.MimeTypeVP8, ClockRate: 90000,
 		},
 		PayloadType: 102,
 	}, webrtc.RTPCodecTypeVideo); err != nil {
@@ -87,7 +87,7 @@ func startHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Create tracks and bind ports
 	audioTrack, err := webrtc.NewTrackLocalStaticRTP(
-		webrtc.RTPCodecCapability{MimeType: "audio/opus"},
+		webrtc.RTPCodecCapability{MimeType: webrtc.MimeTypeOpus},
 		"audio", "pion-audio",
 	)
 
@@ -98,7 +98,7 @@ func startHandler(w http.ResponseWriter, r *http.Request) {
 
 	pc.AddTrack(audioTrack)
 	videoTrack, err := webrtc.NewTrackLocalStaticRTP(
-		webrtc.RTPCodecCapability{MimeType: "video/H264"},
+		webrtc.RTPCodecCapability{MimeType: webrtc.MimeTypeVP8},
 		"video", "pion-video",
 	)
 
